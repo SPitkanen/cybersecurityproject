@@ -58,7 +58,7 @@ def update_description(request, picture_id):
         new_description = request.POST.get('description', '')
         query = f"UPDATE myApp_picture SET description = '{new_description}' WHERE id = {picture_id};" # comment or remove this line to fix injection vulnerability
 
-        # comment or remove try - except clause to fix the problem and uncomment the following lines
+        # comment or remove try - except clause to fix the problem
         if request.user == picture.user:
             try:
                 connection = sqlite3.connect('db.sqlite3')

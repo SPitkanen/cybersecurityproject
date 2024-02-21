@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        .picture-container {
+            width: 66.66%;
+            margin: 0 auto;
+        }
+        .picture-wrapper {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .description {
+            margin-top: 10px;
+        }
+        #preview-card {
+            width: 100%;
+            margin-top: 10px;
+            display: none;
+        }
+        #preview-card img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        #description-input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .preview-wrapper {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+    <script>
+        function previewImage(input) {
+            var previewCard = document.getElementById('preview-card');
+            var previewImage = document.getElementById('preview');
+            var file = input.files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                previewImage.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+                previewCard.style.display = 'block'; // Show the preview card
+            } else {
+                previewImage.src = "";
+                previewCard.style.display = 'none'; // Hide the preview card if no file is selected
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Newest Pictures</h2>
+
+    <div class="picture-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="preview-card">
+                <div class="preview-wrapper">
+                    <img id="preview" alt="Preview">
+                    <input type="text" id="description-input" name="description" placeholder="Enter description">
+                    <button type="submit">Add Picture</button>
+                </div>
+            </div>
+            <input type="file" name="image" accept="image/*" onchange="previewImage(this)">
+        </form>
+    </div>
+
+    <div style="position: absolute; top: 10px; right: 10px;">
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    <div class="picture-container">
+        {% for picture in pictures %}
+            <div class="picture-wrapper">
+                <img src="../{{ picture.image.url }}" alt="Picture">
+                <p class="description" id="description_{{ picture.id }}" onClick="editDescription('{{ picture.id }}', '{{ picture.user }}', '{{ request.user }}')">
+                    {{ picture.description }}
+                </p>
+
+                {% if picture.user == request.user %}
+                    <form method="post" action="{% url 'delete_picture' picture.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete Picture</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function editDescription(pictureId, pictureUser, requestUser) {
+            if (pictureUser === requestUser) {
+                const descriptionElement = document.getElementById(`description_${pictureId}`);
+                const currentDescription = descriptionElement.innerText;
+        
+                // Create an input field for editing
+                const inputField = document.createElement('input');
+                inputField.type = 'text';
+                inputField.value = currentDescription;
+        
+                // Replace the text with the input field
+                descriptionElement.innerHTML = '';
+                descriptionElement.appendChild(inputField);
+        
+                // Focus on the input field
+                inputField.focus();
+        
+                // Add an event listener to save the changes when the user presses Enter
+                inputField.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter') {
+                        saveDescription(pictureId, inputField.value);
+                    }
+                });
+            }
+            
+        }
+    
+        function saveDescription(pictureId, newDescription) {
+            // You can use AJAX or submit a form to update the description in the backend
+            // For simplicity, let's assume you have a URL 'update_description' for updating the description
+    
+            const url = `/update_description/${pictureId}/`;
+            const formData = new FormData();
+            formData.append('description', newDescription);
+    
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the displayed description
+                    const descriptionElement = document.getElementById(`description_${pictureId}`);
+                    descriptionElement.innerText = newDescription;
+                }
+            });
+        }
+    
+        // Function to get the CSRF token from cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    </script>
+
+</body>
+</html>

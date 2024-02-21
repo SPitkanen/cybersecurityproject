@@ -1,2 +1,7 @@
 db.sqlite3
 images/
+__pycache__
+*.log
+*.pot
+*.pyc
+__pycache__

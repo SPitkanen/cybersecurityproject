@@ -44,8 +44,11 @@ def delete_picture(request, picture_id):
     picture = get_object_or_404(Picture, id=picture_id)
 
     # Check if the user is the owner of the picture
-    if picture.user == request.user:
-        picture.delete()
+    # Remove the comments from next two lines to fix the problem and the second 'picture.delete()'
+    # if picture.user == request.user:
+    #    picture.delete()
+
+    picture.delete() # Remove this line when fixing the problem
 
     return redirect('main_page')
 

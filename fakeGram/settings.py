@@ -29,10 +29,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+# uncomment sslserver to use https
 
 INSTALLED_APPS = [
-    'sslserver',
+    #'sslserver',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

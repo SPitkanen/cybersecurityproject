@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['localhost', 'localhost:8000']
 # uncomment sslserver to use https
 
 INSTALLED_APPS = [
-    'sslserver',
+    # 'sslserver',
     'axes',
     'django.contrib.admin',
     'django.contrib.auth',

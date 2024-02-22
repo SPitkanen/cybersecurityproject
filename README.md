@@ -11,27 +11,7 @@ To install the project:
    ```console
    cd cybersecurityproject
    ```
-3. Create virtual env:
-
-   macOs/Linux:
-   ```console
-   python3 -m venv venv
-   ```
-   Windows:
-   ```console
-   py -m venv env
-   ```
-5. Activate virtual env:
-   
-   macOs/Linux:
-   ```console
-   source venv/bin/activate
-   ```
-   Windows:
-   ```console
-   .\env\Scripts\activate
-   ```
-6. Install project specific packages:
+3. Install project specific packages:
    ```console
    pip install -r requirements.txt
    ```
@@ -39,11 +19,11 @@ To install the project:
    ```console
    python3 -m pip install -r requirements.txt
    ```
-7. Create images folder:
+4. Create images folder:
    ```console
    mkdir images
    ```
-8. Apply migrations:
+5. Apply migrations:
    ```console
    python3 manage.py makemigrations
    ```
@@ -51,11 +31,11 @@ To install the project:
    ```console
    python3 manage.py migrate
    ```
-9. Create superuser:
+6. Create superuser:
    ```console
    python3 manage.py createsuperuser
    ```
-10. Run server with:
+7. Run server with:
   ```console
    python3 manage.py runserver
    ```
@@ -63,8 +43,8 @@ To install the project:
   ```console
    python3 manage.py runsslserver
    ```
-10. Go to [admin page](http://localhost:8000/admin) or [https admin page](https://localhost:8000/admin) to create normal users. Create two users and head to [login page](http://localhost:8000/login) or [https](https://localhost:8000/login) to log in. Create couple of images for each user to test the app.
-11. To see all branches use
+8. Go to [admin page](http://localhost:8000/admin) or [https admin page](https://localhost:8000/admin) to create normal users. Create two users and head to [login page](http://localhost:8000/login) or [https](https://localhost:8000/login) to log in. Create couple of images for each user to test the app.
+9. To see all branches use
   ```console
    git branch
    ```

@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'sslserver',
-    'axes',
+    # 'axes', remove comment to fix insecure design
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'axes.middleware.AxesMiddleware',
+    # 'axes.middleware.AxesMiddleware', remove comment to fix insecure design
 ]
 
 ROOT_URLCONF = 'fakeGram.urls'
@@ -128,10 +128,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = [
-   'axes.backends.AxesBackend',
+   # 'axes.backends.AxesBackend', remove comment to fix insecure design
    'django.contrib.auth.backends.ModelBackend',
 ]
 
-AXES_FAILURE_LIMIT: 6 
-AXES_COOLOFF_TIME: 1
-AXES_RESET_ON_SUCCESS = True
+# Remove the following comments to fix insecure design
+# AXES_FAILURE_LIMIT: 6 
+# AXES_COOLOFF_TIME: 1
+# AXES_RESET_ON_SUCCESS = True
